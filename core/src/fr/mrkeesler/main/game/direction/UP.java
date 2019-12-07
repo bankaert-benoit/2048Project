@@ -1,0 +1,43 @@
+package fr.mrkeesler.main.game.direction;
+
+import fr.mrkeesler.main.game.game.block.Block;
+import fr.mrkeesler.main.game.game.board.Board;
+public class UP extends Direction{
+	
+	public void moveTo(Board b,Block bck) {
+		int newX = bck.getPos().getX();
+		boolean find = false;
+		int idx = bck.getPos().getX()-1;
+		while(!find && idx >= 0) {
+			if(b.getBoard()[idx][bck.getPos().getY()] == null) {
+				newX = idx;
+				idx--;
+			}else {
+				find = true;
+			}
+		}		
+		b.getBoard()[bck.getPos().getX()][bck.getPos().getY()] = null;
+		bck.getPos().setX(newX);
+		b.getBoard()[bck.getPos().getX()][bck.getPos().getY()] = bck ;
+		
+		if(bck.getPos().getX() != 0) {
+			Block tmp = b.getBoard()[bck.getPos().getX()-1][bck.getPos().getY()];
+			if(tmp.getValue().equals(bck.getValue())) {
+				bck.fuseBlock(tmp, b);
+			}
+		}
+	}
+
+	@Override
+	public void move(Board b) {
+		for(int i = 0; i < b.getWidth(); i++) {
+			for(int j = 0; j < b.getHeight(); j++) {
+				if(b.getBoard()[i][j] != null) {
+					moveTo(b, b.getBoard()[i][j]);
+				}
+			}
+		}
+		
+	}
+
+}
