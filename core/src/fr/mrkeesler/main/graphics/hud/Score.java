@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -33,13 +32,18 @@ public class Score {
 
     private void initStage(){
         Table table = new Table();
-        table.right();
+        table.top();
+        table.setFillParent(true);
 
         score = new Label("Score = "+board.calculateScore(),new Label.LabelStyle(new BitmapFont(), Color.BLACK));
 
         table.add(score).expandX().pad(10);
 
         this.stage.addActor(table);
+    }
+
+    public void update(){
+        score.setText("Score = "+board.calculateScore());
     }
 
 }
